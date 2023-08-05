@@ -29,22 +29,40 @@ class CommonExampleRouteWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height,
-        ),
-        child: PhotoView(
-          imageProvider: imageProvider,
-          loadingBuilder: loadingBuilder,
-          backgroundDecoration: backgroundDecoration,
-          minScale: minScale,
-          maxScale: maxScale,
-          initialScale: initialScale,
-          basePosition: basePosition,
-          filterQuality: filterQuality,
-          disableGestures: disableGestures,
-          errorBuilder: errorBuilder,
-        ),
+      body: Stack(
+        children: [
+          Container(
+            constraints: BoxConstraints.expand(
+              height: MediaQuery.of(context).size.height,
+            ),
+            child: PhotoView(
+              imageProvider: imageProvider,
+              loadingBuilder: loadingBuilder,
+              backgroundDecoration: backgroundDecoration,
+              minScale: minScale,
+              maxScale: maxScale,
+              initialScale: initialScale,
+              basePosition: basePosition,
+              filterQuality: filterQuality,
+              disableGestures: disableGestures,
+              errorBuilder: errorBuilder,
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            child: Container(
+              alignment: Alignment.centerLeft,
+              color: Colors.white,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

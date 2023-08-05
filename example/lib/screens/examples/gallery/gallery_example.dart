@@ -148,7 +148,22 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                   decoration: null,
                 ),
               ),
-            )
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                color: Colors.white,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
