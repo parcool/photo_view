@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 
 class GalleryExampleItem {
   GalleryExampleItem({
@@ -31,7 +32,11 @@ class GalleryExampleItemThumbnail extends StatelessWidget {
         onTap: onTap,
         child: Hero(
           tag: galleryExampleItem.id,
-          child: Image.asset(galleryExampleItem.resource, height: 80.0),
+          // child: Image.asset(galleryExampleItem.resource, height: 80.0),
+          child: galleryExampleItem.isSvg ? SvgPicture.asset(
+            galleryExampleItem.resource,
+            height: 80.0,
+          ) : Image.asset(galleryExampleItem.resource, height: 80.0),
         ),
       ),
     );
