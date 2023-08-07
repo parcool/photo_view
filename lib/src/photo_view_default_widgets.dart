@@ -38,7 +38,7 @@ class PhotoViewDefaultLoading extends StatelessWidget {
       child: Container(
         width: 20.0,
         height: 20.0,
-        child: CircularProgressIndicator(value: value),
+        child: CircularProgressIndicator(value: value,color: Colors.white,),
       ),
     );
   }
