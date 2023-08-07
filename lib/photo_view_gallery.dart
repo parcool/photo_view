@@ -17,6 +17,8 @@ import 'package:photo_view/src/core/photo_view_gesture_detector.dart';
 import 'package:photo_view/src/photo_view_scale_state.dart';
 import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
 
+import 'src/photo_view_custom_child_delegate.dart';
+
 /// A type definition for a [Function] that receives a index after a page change in [PhotoViewGallery]
 typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
 
@@ -243,12 +245,12 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
 
   Widget _buildItem(BuildContext context, int index) {
     final pageOption = _buildPageOption(context, index);
-    final isCustomChild = pageOption.child != null;
+    final isCustomChild = pageOption.customChildDelegate != null;
 
     final PhotoView photoView = isCustomChild
         ? PhotoView.customChild(
             key: ObjectKey(index),
-            child: pageOption.child,
+            customChildDelegate: pageOption.customChildDelegate,
             imageProvider: pageOption.imageProvider,
             // childSize: pageOption.childSize,
             backgroundDecoration: widget.backgroundDecoration,
@@ -340,12 +342,12 @@ class PhotoViewGalleryPageOptions {
     this.filterQuality,
     this.disableGestures,
     this.errorBuilder,
-  })  : child = null,
+  })  : customChildDelegate = null,
         // childSize = null,
         assert(imageProvider != null);
 
   PhotoViewGalleryPageOptions.customChild({
-    required this.child,
+    required this.customChildDelegate,
     required this.imageProvider,
     this.semanticLabel,
     // this.childSize,
@@ -394,7 +396,7 @@ class PhotoViewGalleryPageOptions {
   final Alignment? basePosition;
 
   /// Mirror to [PhotoView.child]
-  final Widget? child;
+  final CustomChildDelegate? customChildDelegate;
 
   /// Mirror to [PhotoView.childSize]
   // final Size? childSize;

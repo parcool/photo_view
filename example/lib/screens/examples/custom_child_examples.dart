@@ -27,25 +27,27 @@ class CustomChildExample extends StatelessWidget {
             child: ClipRect(
               child: PhotoView.customChild(
                 imageProvider: AssetImage("xxx"),//todo:这个是错误的，要用SvgPicture的imageProvider，但是它又没有，暂时先这样吧。
-                child: Container(
-                  decoration:
-                      const BoxDecoration(color: Colors.lightGreenAccent),
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Hello there, this is a text, that is a svg:",
-                        style: const TextStyle(fontSize: 12.0),
-                        textAlign: TextAlign.center,
-                      ),
-                      SvgPicture.asset(
-                        "assets/firefox.svg",
-                        height: 250.0,
-                      )
-                    ],
-                  ),
-                ),
+                customChildDelegate: (imageProvider,isSuccess){
+                  return Container(
+                    decoration:
+                    const BoxDecoration(color: Colors.lightGreenAccent),
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          "Hello there, this is a text, that is a svg:",
+                          style: const TextStyle(fontSize: 12.0),
+                          textAlign: TextAlign.center,
+                        ),
+                        SvgPicture.asset(
+                          "assets/firefox.svg",
+                          height: 250.0,
+                        )
+                      ],
+                    ),
+                  );
+                },
                 initialScale: 1.0,
               ),
             ),

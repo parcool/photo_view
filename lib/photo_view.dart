@@ -6,6 +6,7 @@ import 'package:photo_view/src/controller/photo_view_controller.dart';
 import 'package:photo_view/src/controller/photo_view_scalestate_controller.dart';
 import 'package:photo_view/src/core/photo_view_core.dart';
 import 'package:photo_view/src/photo_view_computed_scale.dart';
+import 'package:photo_view/src/photo_view_custom_child_delegate.dart';
 import 'package:photo_view/src/photo_view_scale_state.dart';
 import 'package:photo_view/src/photo_view_wrappers.dart';
 import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
@@ -263,7 +264,7 @@ class PhotoView extends StatefulWidget {
     this.errorBuilder,
     this.enablePanAlways,
     this.strictScale,
-  })  : child = null,
+  })  : customChildDelegate = null,
         super(key: key);
 
   /// Creates a widget that displays a zoomable child.
@@ -274,7 +275,7 @@ class PhotoView extends StatefulWidget {
   ///
   PhotoView.customChild({
     Key? key,
-    required this.child,
+    required this.customChildDelegate,
     required this.imageProvider,
     this.backgroundDecoration,
     this.wantKeepAlive = false,
@@ -348,7 +349,7 @@ class PhotoView extends StatefulWidget {
   final bool enableRotation;
 
   /// The specified custom child to be shown instead of a image
-  final Widget? child;
+  final CustomChildDelegate? customChildDelegate;
 
   // /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
   // final Size? childSize;
@@ -414,7 +415,7 @@ class PhotoView extends StatefulWidget {
   final bool? strictScale;
 
   bool get _isCustomChild {
-    return child != null;
+    return customChildDelegate != null;
   }
 
   @override
@@ -511,7 +512,7 @@ class _PhotoViewState extends State<PhotoView>
 
         return widget._isCustomChild
             ? CustomChildWrapper(
-                child: widget.child,
+                customChildDelegate: widget.customChildDelegate!,
                 imageProvider: widget.imageProvider!,
                 // childSize: widget.childSize,
                 backgroundDecoration: backgroundDecoration,

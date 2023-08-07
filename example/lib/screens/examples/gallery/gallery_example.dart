@@ -10,7 +10,6 @@ class GalleryExample extends StatefulWidget {
   _GalleryExampleState createState() => _GalleryExampleState();
 }
 
-
 class CustomPageRoute<T> extends MaterialPageRoute<T> {
   CustomPageRoute({
     required WidgetBuilder builder,
@@ -196,40 +195,43 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     final GalleryExampleItem item = widget.galleryItems[index];
     return item.isSvg
         ? PhotoViewGalleryPageOptions.customChild(
-            child: Container(
-              width: 300,
-              height: 300,
-              child: SvgPicture.asset(
-                item.resource,
-                height: 200.0,
-              ),
-            ),
-      imageProvider: AssetImage(item.resource),
-      initialScale: PhotoViewComputedScale.contained * 1,
-      minScale: PhotoViewComputedScale.contained * 0.5,
-      maxScale: PhotoViewComputedScale.covered * 2,
+            customChildDelegate: (imageProvider, isSuccess) {
+              return Container(
+                width: 300,
+                height: 300,
+                child: SvgPicture.asset(
+                  item.resource,
+                  height: 200.0,
+                ),
+              );
+            },
+            imageProvider: AssetImage(item.resource),
+            initialScale: PhotoViewComputedScale.contained * 1,
+            minScale: PhotoViewComputedScale.contained * 0.5,
+            maxScale: PhotoViewComputedScale.covered * 2,
             heroAttributes: PhotoViewHeroAttributes(tag: item.id),
           )
-        :
-        true ?
-    PhotoViewGalleryPageOptions.customChild(
-      child: Image(
-        image: AssetImage(item.resource),
-        fit: BoxFit.contain,
-      ),
-      // childSize: Size(1640.0, 923.0),
-      imageProvider: AssetImage(item.resource),
-      initialScale: PhotoViewComputedScale.contained * 1,
-      minScale: PhotoViewComputedScale.contained * 0.5,
-      maxScale: PhotoViewComputedScale.covered * 2,
-      heroAttributes: PhotoViewHeroAttributes(tag: item.id),
-    ) :
-    PhotoViewGalleryPageOptions(
-            imageProvider: AssetImage(item.resource),
-      // initialScale: PhotoViewComputedScale.contained * 1,
-      minScale: PhotoViewComputedScale.contained * 0.5,
-      maxScale: PhotoViewComputedScale.covered * 2,
-            heroAttributes: PhotoViewHeroAttributes(tag: item.id),
-          );
+        : true
+            ? PhotoViewGalleryPageOptions.customChild(
+                customChildDelegate: (imageProvider, isSuccess) {
+                  return Image(
+                    image: AssetImage(item.resource),
+                    fit: BoxFit.contain,
+                  );
+                },
+                // childSize: Size(1640.0, 923.0),
+                imageProvider: AssetImage(item.resource),
+                initialScale: PhotoViewComputedScale.contained * 1,
+                minScale: PhotoViewComputedScale.contained * 0.5,
+                maxScale: PhotoViewComputedScale.covered * 2,
+                heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+              )
+            : PhotoViewGalleryPageOptions(
+                imageProvider: AssetImage(item.resource),
+                // initialScale: PhotoViewComputedScale.contained * 1,
+                minScale: PhotoViewComputedScale.contained * 0.5,
+                maxScale: PhotoViewComputedScale.covered * 2,
+                heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+              );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:photo_view/src/photo_view_custom_child_delegate.dart';
 
 import '../photo_view.dart';
 import 'core/photo_view_core.dart';
@@ -232,7 +233,7 @@ class _ImageWrapperState extends State<ImageWrapper> {
 class CustomChildWrapper extends StatefulWidget {
   const CustomChildWrapper({
     Key? key,
-    this.child,
+    required this.customChildDelegate,
     // required this.childSize,
     required this.backgroundDecoration,
     this.heroAttributes,
@@ -260,7 +261,7 @@ class CustomChildWrapper extends StatefulWidget {
     this.loadingBuilder,
   }) : super(key: key);
 
-  final Widget? child;
+  final CustomChildDelegate customChildDelegate;
 
   // final Size? childSize;
   final BoxDecoration backgroundDecoration;
@@ -412,7 +413,7 @@ class _CustomChildWrapperState extends State<CustomChildWrapper> {
     );
 
     return PhotoViewCore.customChild(
-      customChild: widget.child,
+      customChild: widget.customChildDelegate(widget.imageProvider, _lastException == null),
       backgroundDecoration: widget.backgroundDecoration,
       enableRotation: widget.enableRotation,
       heroAttributes: widget.heroAttributes,
