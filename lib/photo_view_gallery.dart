@@ -343,7 +343,6 @@ class PhotoViewGalleryPageOptions {
     required this.customChildDelegate,
     required this.imageProvider,
     this.semanticLabel,
-    this.child,//111
     // this.childSize,
     this.heroAttributes,
     this.minScale,
@@ -360,6 +359,7 @@ class PhotoViewGalleryPageOptions {
     this.tightMode,
     this.filterQuality,
     this.disableGestures,
+    this.child,//111
   }) : errorBuilder = null;
 
   /// Mirror to [PhotoView.imageProvider]
