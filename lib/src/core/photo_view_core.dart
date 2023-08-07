@@ -370,7 +370,7 @@ class PhotoViewCoreState extends State<PhotoViewCore> with TickerProviderStateMi
   }
 
   Widget _buildChild() {
-    print("widget.hasCustomChild==${widget.hasCustomChild}");
+    print("widget.hasCustomChild==${widget.hasCustomChild}!!");
     return widget.hasCustomChild
         ? widget.child!
         : Image(
