@@ -343,7 +343,7 @@ class PhotoViewGalleryPageOptions {
     required this.customChildDelegate,
     required this.imageProvider,
     this.semanticLabel,
-    this.child,
+    this.child,//111
     // this.childSize,
     this.heroAttributes,
     this.minScale,
