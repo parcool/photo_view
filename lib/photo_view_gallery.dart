@@ -3,13 +3,7 @@ library photo_view_gallery;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:photo_view/photo_view.dart'
-    show
-        LoadingBuilder,
-        PhotoView,
-        PhotoViewImageTapDownCallback,
-        PhotoViewImageTapUpCallback,
-        PhotoViewImageScaleEndCallback,
-        ScaleStateCycle;
+    show LoadingBuilder, PhotoView, PhotoViewImageTapDownCallback, PhotoViewImageTapUpCallback, PhotoViewImageScaleEndCallback, ScaleStateCycle;
 
 import 'package:photo_view/src/controller/photo_view_controller.dart';
 import 'package:photo_view/src/controller/photo_view_scalestate_controller.dart';
@@ -23,8 +17,7 @@ import 'src/photo_view_custom_child_delegate.dart';
 typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
 
 /// A type definition for a [Function] that defines a page in [PhotoViewGallery.build]
-typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(
-    BuildContext context, int index);
+typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(BuildContext context, int index);
 
 /// A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]
 ///
@@ -205,8 +198,7 @@ class PhotoViewGallery extends StatefulWidget {
 }
 
 class _PhotoViewGalleryState extends State<PhotoViewGallery> {
-  late final PageController _controller =
-      widget.pageController ?? PageController();
+  late final PageController _controller = widget.pageController ?? PageController();
 
   void scaleStateChangedCallback(PhotoViewScaleState scaleState) {
     if (widget.scaleStateChangedCallback != null) {
@@ -273,6 +265,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             filterQuality: pageOption.filterQuality,
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
+            child: pageOption.child,
           )
         : PhotoView(
             key: ObjectKey(index),
@@ -308,8 +301,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     );
   }
 
-  PhotoViewGalleryPageOptions _buildPageOption(
-      BuildContext context, int index) {
+  PhotoViewGalleryPageOptions _buildPageOption(BuildContext context, int index) {
     if (widget._isBuilder) {
       return widget.builder!(context, index);
     }
@@ -343,6 +335,7 @@ class PhotoViewGalleryPageOptions {
     this.disableGestures,
     this.errorBuilder,
   })  : customChildDelegate = null,
+        child = null,
         // childSize = null,
         assert(imageProvider != null);
 
@@ -366,7 +359,8 @@ class PhotoViewGalleryPageOptions {
     this.tightMode,
     this.filterQuality,
     this.disableGestures,
-  })  : errorBuilder = null;
+    this.child,//111
+  }) : errorBuilder = null;
 
   /// Mirror to [PhotoView.imageProvider]
   final ImageProvider? imageProvider;
@@ -397,6 +391,8 @@ class PhotoViewGalleryPageOptions {
 
   /// Mirror to [PhotoView.child]
   final CustomChildDelegate? customChildDelegate;
+
+  final Widget? child;
 
   /// Mirror to [PhotoView.childSize]
   // final Size? childSize;
