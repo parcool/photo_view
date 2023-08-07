@@ -264,7 +264,6 @@ class PhotoView extends StatefulWidget {
     this.enablePanAlways,
     this.strictScale,
   })  : child = null,
-        childSize = null,
         super(key: key);
 
   /// Creates a widget that displays a zoomable child.
@@ -276,7 +275,7 @@ class PhotoView extends StatefulWidget {
   PhotoView.customChild({
     Key? key,
     required this.child,
-    this.childSize,
+    required this.imageProvider,
     this.backgroundDecoration,
     this.wantKeepAlive = false,
     this.heroAttributes,
@@ -300,7 +299,6 @@ class PhotoView extends StatefulWidget {
     this.enablePanAlways,
     this.strictScale,
   })  : errorBuilder = null,
-        imageProvider = null,
         semanticLabel = null,
         gaplessPlayback = false,
         loadingBuilder = null,
@@ -352,8 +350,8 @@ class PhotoView extends StatefulWidget {
   /// The specified custom child to be shown instead of a image
   final Widget? child;
 
-  /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
-  final Size? childSize;
+  // /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
+  // final Size? childSize;
 
   /// Defines the maximum size in which the image will be allowed to assume, it
   /// is proportional to the original image size. Can be either a double (absolute value) or a
@@ -514,7 +512,8 @@ class _PhotoViewState extends State<PhotoView>
         return widget._isCustomChild
             ? CustomChildWrapper(
                 child: widget.child,
-                childSize: widget.childSize,
+                imageProvider: widget.imageProvider!,
+                // childSize: widget.childSize,
                 backgroundDecoration: backgroundDecoration,
                 heroAttributes: widget.heroAttributes,
                 scaleStateChangedCallback: widget.scaleStateChangedCallback,

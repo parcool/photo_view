@@ -10,6 +10,17 @@ class GalleryExample extends StatefulWidget {
   _GalleryExampleState createState() => _GalleryExampleState();
 }
 
+
+class CustomPageRoute<T> extends MaterialPageRoute<T> {
+  CustomPageRoute({
+    required WidgetBuilder builder,
+    RouteSettings? settings,
+  }) : super(builder: builder, settings: settings);
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 1000);
+}
+
 class _GalleryExampleState extends State<GalleryExample> {
   bool verticalGallery = false;
 
@@ -38,7 +49,10 @@ class _GalleryExampleState extends State<GalleryExample> {
                   },
                 ),
                 GalleryExampleItemThumbnail(
-                  galleryExampleItem: galleryItems[2],
+                  galleryExampleItem: GalleryExampleItem(
+                    id: "tag3",
+                    resource: "assets/small-gallery2.jpg",
+                  ),
                   onTap: () {
                     open(context, 2);
                   },
@@ -74,7 +88,7 @@ class _GalleryExampleState extends State<GalleryExample> {
   void open(BuildContext context, final int index) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      CustomPageRoute(
         builder: (context) => GalleryPhotoViewWrapper(
           galleryItems: galleryItems,
           backgroundDecoration: const BoxDecoration(
@@ -165,7 +179,9 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back_ios),
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Navigator.of(context).pop();
+                    print("tui!!");
                   },
                 ),
               ),
@@ -188,17 +204,31 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 height: 200.0,
               ),
             ),
-            childSize: const Size(300, 300),
-            initialScale: PhotoViewComputedScale.contained,
-            minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
-            maxScale: PhotoViewComputedScale.covered * 4.1,
+      imageProvider: AssetImage(item.resource),
+      initialScale: PhotoViewComputedScale.contained * 1,
+      minScale: PhotoViewComputedScale.contained * 0.5,
+      maxScale: PhotoViewComputedScale.covered * 2,
             heroAttributes: PhotoViewHeroAttributes(tag: item.id),
           )
-        : PhotoViewGalleryPageOptions(
+        :
+        true ?
+    PhotoViewGalleryPageOptions.customChild(
+      child: Image(
+        image: AssetImage(item.resource),
+        fit: BoxFit.contain,
+      ),
+      // childSize: Size(1640.0, 923.0),
+      imageProvider: AssetImage(item.resource),
+      initialScale: PhotoViewComputedScale.contained * 1,
+      minScale: PhotoViewComputedScale.contained * 0.5,
+      maxScale: PhotoViewComputedScale.covered * 2,
+      heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+    ) :
+    PhotoViewGalleryPageOptions(
             imageProvider: AssetImage(item.resource),
-            initialScale: PhotoViewComputedScale.contained,
-            minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
-            maxScale: PhotoViewComputedScale.covered * 4.1,
+      // initialScale: PhotoViewComputedScale.contained * 1,
+      minScale: PhotoViewComputedScale.contained * 0.5,
+      maxScale: PhotoViewComputedScale.covered * 2,
             heroAttributes: PhotoViewHeroAttributes(tag: item.id),
           );
   }

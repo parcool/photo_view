@@ -249,7 +249,8 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
         ? PhotoView.customChild(
             key: ObjectKey(index),
             child: pageOption.child,
-            childSize: pageOption.childSize,
+            imageProvider: pageOption.imageProvider,
+            // childSize: pageOption.childSize,
             backgroundDecoration: widget.backgroundDecoration,
             wantKeepAlive: widget.wantKeepAlive,
             controller: pageOption.controller,
@@ -345,6 +346,7 @@ class PhotoViewGalleryPageOptions {
 
   PhotoViewGalleryPageOptions.customChild({
     required this.child,
+    required this.imageProvider,
     this.semanticLabel,
     this.childSize,
     this.heroAttributes,
@@ -362,8 +364,7 @@ class PhotoViewGalleryPageOptions {
     this.tightMode,
     this.filterQuality,
     this.disableGestures,
-  })  : errorBuilder = null,
-        imageProvider = null;
+  })  : errorBuilder = null;
 
   /// Mirror to [PhotoView.imageProvider]
   final ImageProvider? imageProvider;

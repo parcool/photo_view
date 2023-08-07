@@ -26,6 +26,7 @@ class CustomChildExample extends StatelessWidget {
             height: 450.0,
             child: ClipRect(
               child: PhotoView.customChild(
+                imageProvider: AssetImage("xxx"),//todo:这个是错误的，要用SvgPicture的imageProvider，但是它又没有，暂时先这样吧。
                 child: Container(
                   decoration:
                       const BoxDecoration(color: Colors.lightGreenAccent),

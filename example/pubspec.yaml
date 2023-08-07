@@ -26,6 +26,8 @@ flutter:
     - assets/gallery1.jpg
     - assets/gallery2.jpg
     - assets/gallery3.jpg
+    - assets/small-gallery2.jpg
+    - assets/small-gallery3.jpg
     - assets/firefox.svg
 
   fonts:
