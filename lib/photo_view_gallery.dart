@@ -265,6 +265,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             filterQuality: pageOption.filterQuality,
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
+            child: pageOption.child,
           )
         : PhotoView(
             key: ObjectKey(index),
