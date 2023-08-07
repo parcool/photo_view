@@ -13,8 +13,7 @@ import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
 
 export 'src/controller/photo_view_controller.dart';
 export 'src/controller/photo_view_scalestate_controller.dart';
-export 'src/core/photo_view_gesture_detector.dart'
-    show PhotoViewGestureDetectorScope;
+export 'src/core/photo_view_gesture_detector.dart' show PhotoViewGestureDetectorScope;
 export 'src/photo_view_computed_scale.dart';
 export 'src/photo_view_scale_state.dart';
 export 'src/utils/photo_view_hero_attributes.dart';
@@ -265,6 +264,7 @@ class PhotoView extends StatefulWidget {
     this.enablePanAlways,
     this.strictScale,
   })  : customChildDelegate = null,
+        child = null,
         super(key: key);
 
   /// Creates a widget that displays a zoomable child.
@@ -273,33 +273,34 @@ class PhotoView extends StatefulWidget {
   ///
   /// Instead of a [imageProvider], this constructor will receive a [child] and a [childSize].
   ///
-  PhotoView.customChild({
-    Key? key,
-    required this.customChildDelegate,
-    required this.imageProvider,
-    this.backgroundDecoration,
-    this.wantKeepAlive = false,
-    this.heroAttributes,
-    this.scaleStateChangedCallback,
-    this.enableRotation = false,
-    this.controller,
-    this.scaleStateController,
-    this.maxScale,
-    this.minScale,
-    this.initialScale,
-    this.basePosition,
-    this.scaleStateCycle,
-    this.onTapUp,
-    this.onTapDown,
-    this.onScaleEnd,
-    this.customSize,
-    this.gestureDetectorBehavior,
-    this.tightMode,
-    this.filterQuality,
-    this.disableGestures,
-    this.enablePanAlways,
-    this.strictScale,
-  })  : errorBuilder = null,
+  PhotoView.customChild(
+      {Key? key,
+      required this.customChildDelegate,
+      required this.imageProvider,
+      this.backgroundDecoration,
+      this.wantKeepAlive = false,
+      this.heroAttributes,
+      this.scaleStateChangedCallback,
+      this.enableRotation = false,
+      this.controller,
+      this.scaleStateController,
+      this.maxScale,
+      this.minScale,
+      this.initialScale,
+      this.basePosition,
+      this.scaleStateCycle,
+      this.onTapUp,
+      this.onTapDown,
+      this.onScaleEnd,
+      this.customSize,
+      this.gestureDetectorBehavior,
+      this.tightMode,
+      this.filterQuality,
+      this.disableGestures,
+      this.enablePanAlways,
+      this.strictScale,
+      this.child})
+      : errorBuilder = null,
         semanticLabel = null,
         gaplessPlayback = false,
         loadingBuilder = null,
@@ -414,6 +415,8 @@ class PhotoView extends StatefulWidget {
   /// Enable strictScale will restrict user scale gesture to the maxScale and minScale values.
   final bool? strictScale;
 
+  final Widget? child;
+
   bool get _isCustomChild {
     return customChildDelegate != null;
   }
@@ -424,8 +427,7 @@ class PhotoView extends StatefulWidget {
   }
 }
 
-class _PhotoViewState extends State<PhotoView>
-    with AutomaticKeepAliveClientMixin {
+class _PhotoViewState extends State<PhotoView> with AutomaticKeepAliveClientMixin {
   // image retrieval
 
   // controller
@@ -507,13 +509,13 @@ class _PhotoViewState extends State<PhotoView>
         BoxConstraints constraints,
       ) {
         final computedOuterSize = widget.customSize ?? constraints.biggest;
-        final backgroundDecoration = widget.backgroundDecoration ??
-            const BoxDecoration(color: Colors.black);
+        final backgroundDecoration = widget.backgroundDecoration ?? const BoxDecoration(color: Colors.black);
 
         return widget._isCustomChild
             ? CustomChildWrapper(
                 customChildDelegate: widget.customChildDelegate!,
                 imageProvider: widget.imageProvider!,
+                child:widget.child,
                 // childSize: widget.childSize,
                 backgroundDecoration: backgroundDecoration,
                 heroAttributes: widget.heroAttributes,
