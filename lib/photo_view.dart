@@ -234,6 +234,12 @@ class PhotoView extends StatefulWidget {
   /// image providers, ie: [AssetImage] or [NetworkImage]
   ///
   /// Internally, the image is rendered within an [Image] widget.
+  /// Creates a widget that displays a zoomable child.
+  ///
+  /// It has been created to resemble [PhotoView] behavior within widgets that aren't an image, such as [Container], [Text] or a svg.
+  ///
+  /// Instead of a [imageProvider], this constructor will receive a [child] and a [childSize].
+  ///
   PhotoView({
     Key? key,
     required this.imageProvider,
@@ -264,15 +270,8 @@ class PhotoView extends StatefulWidget {
     this.enablePanAlways,
     this.strictScale,
   })  : customChildDelegate = null,
-        child = null,
         super(key: key);
 
-  /// Creates a widget that displays a zoomable child.
-  ///
-  /// It has been created to resemble [PhotoView] behavior within widgets that aren't an image, such as [Container], [Text] or a svg.
-  ///
-  /// Instead of a [imageProvider], this constructor will receive a [child] and a [childSize].
-  ///
   PhotoView.customChild(
       {Key? key,
       required this.customChildDelegate,
@@ -298,8 +297,7 @@ class PhotoView extends StatefulWidget {
       this.filterQuality,
       this.disableGestures,
       this.enablePanAlways,
-      this.strictScale,
-      this.child})
+      this.strictScale})
       : errorBuilder = null,
         semanticLabel = null,
         gaplessPlayback = false,
@@ -415,8 +413,6 @@ class PhotoView extends StatefulWidget {
   /// Enable strictScale will restrict user scale gesture to the maxScale and minScale values.
   final bool? strictScale;
 
-  final Widget? child;
-
   bool get _isCustomChild {
     return customChildDelegate != null;
   }
@@ -515,7 +511,6 @@ class _PhotoViewState extends State<PhotoView> with AutomaticKeepAliveClientMixi
             ? CustomChildWrapper(
                 customChildDelegate: widget.customChildDelegate!,
                 imageProvider: widget.imageProvider!,
-                child:widget.child,
                 // childSize: widget.childSize,
                 backgroundDecoration: backgroundDecoration,
                 heroAttributes: widget.heroAttributes,

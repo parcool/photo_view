@@ -44,7 +44,6 @@ class PhotoViewCore extends StatefulWidget {
     required this.enablePanAlways,
     required this.strictScale,
   })  : customChild = null,
-        child = null,
         super(key: key);
 
   const PhotoViewCore.customChild(
@@ -66,8 +65,7 @@ class PhotoViewCore extends StatefulWidget {
       required this.filterQuality,
       required this.disableGestures,
       required this.enablePanAlways,
-      required this.strictScale,
-      required this.child})
+      required this.strictScale})
       : imageProvider = null,
         semanticLabel = null,
         gaplessPlayback = false,
@@ -98,14 +96,13 @@ class PhotoViewCore extends StatefulWidget {
   final bool strictScale;
 
   final FilterQuality filterQuality;
-  final Widget? child;
 
   @override
   State<StatefulWidget> createState() {
     return PhotoViewCoreState();
   }
 
-  bool get hasCustomChild => child != null;
+  bool get hasCustomChild => customChild != null;
 }
 
 class PhotoViewCoreState extends State<PhotoViewCore> with TickerProviderStateMixin, PhotoViewControllerDelegate, HitCornersDetector {
@@ -372,7 +369,7 @@ class PhotoViewCoreState extends State<PhotoViewCore> with TickerProviderStateMi
   Widget _buildChild() {
     print("widget.hasCustomChild==${widget.hasCustomChild}!!");
     return widget.hasCustomChild
-        ? widget.child!
+        ? widget.customChild!
         : Image(
             image: widget.imageProvider!,
             semanticLabel: widget.semanticLabel,

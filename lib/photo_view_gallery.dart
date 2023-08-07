@@ -265,7 +265,6 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             filterQuality: pageOption.filterQuality,
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
-            child: pageOption.child,
           )
         : PhotoView(
             key: ObjectKey(index),
@@ -335,7 +334,6 @@ class PhotoViewGalleryPageOptions {
     this.disableGestures,
     this.errorBuilder,
   })  : customChildDelegate = null,
-        child = null,
         // childSize = null,
         assert(imageProvider != null);
 
@@ -359,7 +357,6 @@ class PhotoViewGalleryPageOptions {
     this.tightMode,
     this.filterQuality,
     this.disableGestures,
-    this.child,//111
   }) : errorBuilder = null;
 
   /// Mirror to [PhotoView.imageProvider]
@@ -392,7 +389,6 @@ class PhotoViewGalleryPageOptions {
   /// Mirror to [PhotoView.child]
   final CustomChildDelegate? customChildDelegate;
 
-  final Widget? child;
 
   /// Mirror to [PhotoView.childSize]
   // final Size? childSize;

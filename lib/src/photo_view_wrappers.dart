@@ -259,7 +259,6 @@ class CustomChildWrapper extends StatefulWidget {
     required this.imageProvider,
     this.errorBuilder,
     this.loadingBuilder,
-    this.child,
   }) : super(key: key);
 
   final CustomChildDelegate customChildDelegate;
@@ -292,7 +291,6 @@ class CustomChildWrapper extends StatefulWidget {
   final ImageProvider imageProvider;
   final ImageErrorWidgetBuilder? errorBuilder;
   final LoadingBuilder? loadingBuilder;
-  final Widget? child;
 
   @override
   State<CustomChildWrapper> createState() => _CustomChildWrapperState();
@@ -416,7 +414,6 @@ class _CustomChildWrapperState extends State<CustomChildWrapper> {
 
     return PhotoViewCore.customChild(
       customChild: widget.customChildDelegate(widget.imageProvider, _lastException == null),
-      child: widget.child,
       backgroundDecoration: widget.backgroundDecoration,
       enableRotation: widget.enableRotation,
       heroAttributes: widget.heroAttributes,
