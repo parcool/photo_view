@@ -341,14 +341,14 @@ class PhotoViewGalleryPageOptions {
     this.disableGestures,
     this.errorBuilder,
   })  : child = null,
-        childSize = null,
+        // childSize = null,
         assert(imageProvider != null);
 
   PhotoViewGalleryPageOptions.customChild({
     required this.child,
     required this.imageProvider,
     this.semanticLabel,
-    this.childSize,
+    // this.childSize,
     this.heroAttributes,
     this.minScale,
     this.maxScale,
@@ -397,7 +397,7 @@ class PhotoViewGalleryPageOptions {
   final Widget? child;
 
   /// Mirror to [PhotoView.childSize]
-  final Size? childSize;
+  // final Size? childSize;
 
   /// Mirror to [PhotoView.scaleStateCycle]
   final ScaleStateCycle? scaleStateCycle;
