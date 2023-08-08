@@ -17,7 +17,7 @@ import 'src/photo_view_custom_child_delegate.dart';
 typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
 
 /// A type definition for a [Function] that defines a page in [PhotoViewGallery.build]
-typedef PhotoViewGalleryBuilder = PhotoViewGalleryPageOptions Function(BuildContext context, int index);
+typedef PhotoViewGalleryBuilder = Future<PhotoViewGalleryPageOptions> Function(BuildContext context, int index);
 
 /// A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]
 ///
@@ -227,7 +227,20 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
         controller: _controller,
         onPageChanged: widget.onPageChanged,
         itemCount: itemCount,
-        itemBuilder: _buildItem,
+        itemBuilder: (context, index) {
+          return FutureBuilder<Widget>(
+              future: _buildItem(context, index),
+              builder: (context, data) {
+                if (data.connectionState == ConnectionState.done) {
+                  if (data.hasData) {
+                    return data.data!;
+                  }
+                  return Text("Error! ${data.error}");
+                } else {
+                  return const Text("Loading...");
+                }
+              });
+        },
         scrollDirection: widget.scrollDirection,
         physics: widget.scrollPhysics,
         allowImplicitScrolling: widget.allowImplicitScrolling,
@@ -235,8 +248,8 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     );
   }
 
-  Widget _buildItem(BuildContext context, int index) {
-    final pageOption = _buildPageOption(context, index);
+  Future<Widget> _buildItem(BuildContext context, int index) async {
+    final pageOption = await _buildPageOption(context, index);
     final isCustomChild = pageOption.customChildDelegate != null;
 
     final PhotoView photoView = isCustomChild
@@ -301,7 +314,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     );
   }
 
-  PhotoViewGalleryPageOptions _buildPageOption(BuildContext context, int index) {
+  Future<PhotoViewGalleryPageOptions> _buildPageOption(BuildContext context, int index) async {
     if (widget._isBuilder) {
       return widget.builder!(context, index);
     }
