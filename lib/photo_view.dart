@@ -6,7 +6,6 @@ import 'package:photo_view/src/controller/photo_view_controller.dart';
 import 'package:photo_view/src/controller/photo_view_scalestate_controller.dart';
 import 'package:photo_view/src/core/photo_view_core.dart';
 import 'package:photo_view/src/photo_view_computed_scale.dart';
-import 'package:photo_view/src/photo_view_custom_child_delegate.dart';
 import 'package:photo_view/src/photo_view_scale_state.dart';
 import 'package:photo_view/src/photo_view_wrappers.dart';
 import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
@@ -269,13 +268,14 @@ class PhotoView extends StatefulWidget {
     this.errorBuilder,
     this.enablePanAlways,
     this.strictScale,
-  })  : customChildDelegate = null,
+  })  : child = null,
+        childSize = null,
         super(key: key);
 
   PhotoView.customChild(
       {Key? key,
-      required this.customChildDelegate,
-      required this.imageProvider,
+      required this.child,
+      required this.childSize,
       this.backgroundDecoration,
       this.wantKeepAlive = false,
       this.heroAttributes,
@@ -302,6 +302,7 @@ class PhotoView extends StatefulWidget {
       : semanticLabel = null,
         gaplessPlayback = false,
         loadingBuilder = null,
+        imageProvider = null,
         super(key: key);
 
   /// Given a [imageProvider] it resolves into an zoomable image widget using. It
@@ -348,10 +349,10 @@ class PhotoView extends StatefulWidget {
   final bool enableRotation;
 
   /// The specified custom child to be shown instead of a image
-  final CustomChildDelegate? customChildDelegate;
+  final Widget? child;
 
-  // /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
-  // final Size? childSize;
+  /// The size of the custom [child]. [PhotoView] uses this value to compute the relation between the child and the container's size to calculate the scale value.
+  final Size? childSize;
 
   /// Defines the maximum size in which the image will be allowed to assume, it
   /// is proportional to the original image size. Can be either a double (absolute value) or a
@@ -414,7 +415,7 @@ class PhotoView extends StatefulWidget {
   final bool? strictScale;
 
   bool get _isCustomChild {
-    return customChildDelegate != null;
+    return child != null;
   }
 
   @override
@@ -509,9 +510,8 @@ class _PhotoViewState extends State<PhotoView> with AutomaticKeepAliveClientMixi
 
         return widget._isCustomChild
             ? CustomChildWrapper(
-                customChildDelegate: widget.customChildDelegate!,
-                imageProvider: widget.imageProvider!,
-                // childSize: widget.childSize,
+                child: widget.child!,
+                childSize: widget.childSize,
                 backgroundDecoration: backgroundDecoration,
                 heroAttributes: widget.heroAttributes,
                 scaleStateChangedCallback: widget.scaleStateChangedCallback,
@@ -527,7 +527,6 @@ class _PhotoViewState extends State<PhotoView> with AutomaticKeepAliveClientMixi
                 onTapDown: widget.onTapDown,
                 onScaleEnd: widget.onScaleEnd,
                 outerSize: computedOuterSize,
-                errorBuilder: widget.errorBuilder,
                 gestureDetectorBehavior: widget.gestureDetectorBehavior,
                 tightMode: widget.tightMode,
                 filterQuality: widget.filterQuality,

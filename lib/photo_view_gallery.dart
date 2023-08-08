@@ -11,7 +11,6 @@ import 'package:photo_view/src/core/photo_view_gesture_detector.dart';
 import 'package:photo_view/src/photo_view_scale_state.dart';
 import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
 
-import 'src/photo_view_custom_child_delegate.dart';
 
 /// A type definition for a [Function] that receives a index after a page change in [PhotoViewGallery]
 typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
@@ -250,14 +249,13 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
 
   Future<Widget> _buildItem(BuildContext context, int index) async {
     final pageOption = await _buildPageOption(context, index);
-    final isCustomChild = pageOption.customChildDelegate != null;
+    final isCustomChild = pageOption.child != null;
 
     final PhotoView photoView = isCustomChild
         ? PhotoView.customChild(
             key: ObjectKey(index),
-            customChildDelegate: pageOption.customChildDelegate,
-            imageProvider: pageOption.imageProvider,
-            // childSize: pageOption.childSize,
+            child: pageOption.child,
+            childSize: pageOption.childSize,
             backgroundDecoration: widget.backgroundDecoration,
             wantKeepAlive: widget.wantKeepAlive,
             controller: pageOption.controller,
@@ -347,15 +345,14 @@ class PhotoViewGalleryPageOptions {
     this.filterQuality,
     this.disableGestures,
     this.errorBuilder,
-  })  : customChildDelegate = null,
-        // childSize = null,
+  })  : child = null,
+        childSize = null,
         assert(imageProvider != null);
 
   PhotoViewGalleryPageOptions.customChild({
-    required this.customChildDelegate,
-    required this.imageProvider,
+    required this.child,
     this.semanticLabel,
-    // this.childSize,
+    required this.childSize,
     this.heroAttributes,
     this.minScale,
     this.maxScale,
@@ -372,7 +369,7 @@ class PhotoViewGalleryPageOptions {
     this.filterQuality,
     this.disableGestures,
     this.errorBuilder,
-  });
+  }) : imageProvider = null;
 
   /// Mirror to [PhotoView.imageProvider]
   final ImageProvider? imageProvider;
@@ -402,10 +399,10 @@ class PhotoViewGalleryPageOptions {
   final Alignment? basePosition;
 
   /// Mirror to [PhotoView.child]
-  final CustomChildDelegate? customChildDelegate;
+  final Widget? child;
 
   /// Mirror to [PhotoView.childSize]
-  // final Size? childSize;
+  final Size? childSize;
 
   /// Mirror to [PhotoView.scaleStateCycle]
   final ScaleStateCycle? scaleStateCycle;

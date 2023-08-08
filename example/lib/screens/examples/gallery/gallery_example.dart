@@ -196,17 +196,15 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
     final GalleryExampleItem item = widget.galleryItems[index];
     return item.isSvg
         ? PhotoViewGalleryPageOptions.customChild(
-            customChildDelegate: (imageProvider, isSuccess) {
-              return Container(
-                width: 300,
-                height: 300,
-                child: SvgPicture.asset(
-                  item.resource,
-                  height: 200.0,
-                ),
-              );
-            },
-            imageProvider: AssetImage(item.resource),
+            child: Container(
+              width: 300,
+              height: 300,
+              child: SvgPicture.asset(
+                item.resource,
+                height: 200.0,
+              ),
+            ),
+            childSize:const Size(300,300),
             initialScale: PhotoViewComputedScale.contained * 1,
             minScale: PhotoViewComputedScale.contained * 0.5,
             maxScale: PhotoViewComputedScale.covered * 2,
@@ -214,14 +212,12 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
           )
         : true
             ? PhotoViewGalleryPageOptions.customChild(
-                customChildDelegate: (imageProvider, isSuccess) {
-                  return Image(
-                    image: AssetImage(item.resource),
-                    fit: BoxFit.contain,
-                  );
-                },
+                child: Image(
+                  image: AssetImage(item.resource),
+                  fit: BoxFit.contain,
+                ),
                 // childSize: Size(1640.0, 923.0),
-                imageProvider: AssetImage(item.resource),
+                childSize: const Size(1640,923),
                 initialScale: PhotoViewComputedScale.contained * 1,
                 minScale: PhotoViewComputedScale.contained * 0.5,
                 maxScale: PhotoViewComputedScale.covered * 2,
