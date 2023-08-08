@@ -358,7 +358,8 @@ class PhotoViewGalleryPageOptions {
     this.tightMode,
     this.filterQuality,
     this.disableGestures,
-  }) : errorBuilder = null;
+    this.errorBuilder,
+  });
 
   /// Mirror to [PhotoView.imageProvider]
   final ImageProvider? imageProvider;
