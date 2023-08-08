@@ -150,6 +150,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
             PhotoViewGallery.builder(
               scrollPhysics: const BouncingScrollPhysics(),
               builder: _buildItem,
+              builderForHero: _buildItemForHero,
               itemCount: widget.galleryItems.length,
               loadingBuilder: widget.loadingBuilder,
               backgroundDecoration: widget.backgroundDecoration,
@@ -204,7 +205,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 height: 200.0,
               ),
             ),
-            childSize:const Size(300,300),
+            childSize: const Size(300, 300),
             initialScale: PhotoViewComputedScale.contained * 1,
             minScale: PhotoViewComputedScale.contained * 0.5,
             maxScale: PhotoViewComputedScale.covered * 2,
@@ -217,7 +218,48 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                   fit: BoxFit.contain,
                 ),
                 // childSize: Size(1640.0, 923.0),
-                childSize: const Size(1640,923),
+                childSize: const Size(1640, 923),
+                initialScale: PhotoViewComputedScale.contained * 1,
+                minScale: PhotoViewComputedScale.contained * 0.5,
+                maxScale: PhotoViewComputedScale.covered * 2,
+                heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+              )
+            : PhotoViewGalleryPageOptions(
+                imageProvider: AssetImage(item.resource),
+                // initialScale: PhotoViewComputedScale.contained * 1,
+                minScale: PhotoViewComputedScale.contained * 0.5,
+                maxScale: PhotoViewComputedScale.covered * 2,
+                heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+              );
+  }
+
+  PhotoViewGalleryPageOptions _buildItemForHero(BuildContext context, int index) {
+    // await Future.delayed(Duration.zero);
+    final GalleryExampleItem item = widget.galleryItems[index];
+    return item.isSvg
+        ? PhotoViewGalleryPageOptions.customChild(
+            child: Container(
+              width: 300,
+              height: 300,
+              child: SvgPicture.asset(
+                item.resource,
+                height: 200.0,
+              ),
+            ),
+            childSize: const Size(300, 300),
+            initialScale: PhotoViewComputedScale.contained * 1,
+            minScale: PhotoViewComputedScale.contained * 0.5,
+            maxScale: PhotoViewComputedScale.covered * 2,
+            heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+          )
+        : true
+            ? PhotoViewGalleryPageOptions.customChild(
+                child: Image(
+                  image: AssetImage(item.resource),
+                  fit: BoxFit.contain,
+                ),
+                // childSize: Size(1640.0, 923.0),
+                childSize: const Size(1640, 923),
                 initialScale: PhotoViewComputedScale.contained * 1,
                 minScale: PhotoViewComputedScale.contained * 0.5,
                 maxScale: PhotoViewComputedScale.covered * 2,

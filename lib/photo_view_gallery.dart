@@ -11,12 +11,12 @@ import 'package:photo_view/src/core/photo_view_gesture_detector.dart';
 import 'package:photo_view/src/photo_view_scale_state.dart';
 import 'package:photo_view/src/utils/photo_view_hero_attributes.dart';
 
-
 /// A type definition for a [Function] that receives a index after a page change in [PhotoViewGallery]
 typedef PhotoViewGalleryPageChangedCallback = void Function(int index);
 
 /// A type definition for a [Function] that defines a page in [PhotoViewGallery.build]
 typedef PhotoViewGalleryBuilder = Future<PhotoViewGalleryPageOptions> Function(BuildContext context, int index);
+typedef PhotoViewGalleryBuilderForHero = PhotoViewGalleryPageOptions? Function(BuildContext context, int index);
 
 /// A [StatefulWidget] that shows multiple [PhotoView] widgets in a [PageView]
 ///
@@ -113,6 +113,7 @@ class PhotoViewGallery extends StatefulWidget {
     this.allowImplicitScrolling = false,
   })  : itemCount = null,
         builder = null,
+        builderForHero = null,
         super(key: key);
 
   /// Construct a gallery with dynamic items.
@@ -122,6 +123,7 @@ class PhotoViewGallery extends StatefulWidget {
     Key? key,
     required this.itemCount,
     required this.builder,
+    required this.builderForHero,
     this.loadingBuilder,
     this.backgroundDecoration,
     this.wantKeepAlive = false,
@@ -148,6 +150,7 @@ class PhotoViewGallery extends StatefulWidget {
 
   /// Called to build items for the gallery when using [PhotoViewGallery.builder]
   final PhotoViewGalleryBuilder? builder;
+  final PhotoViewGalleryBuilderForHero? builderForHero;
 
   /// [ScrollPhysics] for the internal [PageView]
   final ScrollPhysics? scrollPhysics;
@@ -227,6 +230,10 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
         onPageChanged: widget.onPageChanged,
         itemCount: itemCount,
         itemBuilder: (context, index) {
+          final itemForHero = _buildItemForHero(context, index);
+          if (itemForHero != null) {
+            return itemForHero;
+          }
           return FutureBuilder<Widget>(
               future: _buildItem(context, index),
               builder: (context, data) {
@@ -312,9 +319,84 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
     );
   }
 
+  Widget? _buildItemForHero(BuildContext context, int index) {
+    final pageOption = _buildPageOptionForHero(context, index);
+    if (pageOption == null) {
+      return null;
+    }
+    final isCustomChild = pageOption.child != null;
+
+    final PhotoView photoView = isCustomChild
+        ? PhotoView.customChild(
+            key: ObjectKey(index),
+            child: pageOption.child,
+            childSize: pageOption.childSize,
+            backgroundDecoration: widget.backgroundDecoration,
+            wantKeepAlive: widget.wantKeepAlive,
+            controller: pageOption.controller,
+            scaleStateController: pageOption.scaleStateController,
+            customSize: widget.customSize,
+            heroAttributes: pageOption.heroAttributes,
+            scaleStateChangedCallback: scaleStateChangedCallback,
+            enableRotation: widget.enableRotation,
+            initialScale: pageOption.initialScale,
+            minScale: pageOption.minScale,
+            maxScale: pageOption.maxScale,
+            scaleStateCycle: pageOption.scaleStateCycle,
+            onTapUp: pageOption.onTapUp,
+            onTapDown: pageOption.onTapDown,
+            onScaleEnd: pageOption.onScaleEnd,
+            gestureDetectorBehavior: pageOption.gestureDetectorBehavior,
+            tightMode: pageOption.tightMode,
+            filterQuality: pageOption.filterQuality,
+            basePosition: pageOption.basePosition,
+            disableGestures: pageOption.disableGestures,
+            errorBuilder: pageOption.errorBuilder,
+          )
+        : PhotoView(
+            key: ObjectKey(index),
+            imageProvider: pageOption.imageProvider,
+            loadingBuilder: widget.loadingBuilder,
+            backgroundDecoration: widget.backgroundDecoration,
+            wantKeepAlive: widget.wantKeepAlive,
+            controller: pageOption.controller,
+            scaleStateController: pageOption.scaleStateController,
+            customSize: widget.customSize,
+            semanticLabel: pageOption.semanticLabel,
+            gaplessPlayback: widget.gaplessPlayback,
+            heroAttributes: pageOption.heroAttributes,
+            scaleStateChangedCallback: scaleStateChangedCallback,
+            enableRotation: widget.enableRotation,
+            initialScale: pageOption.initialScale,
+            minScale: pageOption.minScale,
+            maxScale: pageOption.maxScale,
+            scaleStateCycle: pageOption.scaleStateCycle,
+            onTapUp: pageOption.onTapUp,
+            onTapDown: pageOption.onTapDown,
+            onScaleEnd: pageOption.onScaleEnd,
+            gestureDetectorBehavior: pageOption.gestureDetectorBehavior,
+            tightMode: pageOption.tightMode,
+            filterQuality: pageOption.filterQuality,
+            basePosition: pageOption.basePosition,
+            disableGestures: pageOption.disableGestures,
+            errorBuilder: pageOption.errorBuilder,
+          );
+
+    return ClipRect(
+      child: photoView,
+    );
+  }
+
   Future<PhotoViewGalleryPageOptions> _buildPageOption(BuildContext context, int index) async {
     if (widget._isBuilder) {
       return widget.builder!(context, index);
+    }
+    return widget.pageOptions![index];
+  }
+
+  PhotoViewGalleryPageOptions? _buildPageOptionForHero(BuildContext context, int index) {
+    if (widget._isBuilder) {
+      return widget.builderForHero!(context, index);
     }
     return widget.pageOptions![index];
   }
