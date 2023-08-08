@@ -297,9 +297,9 @@ class PhotoView extends StatefulWidget {
       this.filterQuality,
       this.disableGestures,
       this.enablePanAlways,
-      this.strictScale})
-      : errorBuilder = null,
-        semanticLabel = null,
+      this.strictScale,
+      this.errorBuilder})
+      : semanticLabel = null,
         gaplessPlayback = false,
         loadingBuilder = null,
         super(key: key);
@@ -527,6 +527,7 @@ class _PhotoViewState extends State<PhotoView> with AutomaticKeepAliveClientMixi
                 onTapDown: widget.onTapDown,
                 onScaleEnd: widget.onScaleEnd,
                 outerSize: computedOuterSize,
+                errorBuilder: widget.errorBuilder,
                 gestureDetectorBehavior: widget.gestureDetectorBehavior,
                 tightMode: widget.tightMode,
                 filterQuality: widget.filterQuality,

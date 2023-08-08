@@ -265,6 +265,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             filterQuality: pageOption.filterQuality,
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
+            errorBuilder: pageOption.errorBuilder,
           )
         : PhotoView(
             key: ObjectKey(index),
@@ -388,7 +389,6 @@ class PhotoViewGalleryPageOptions {
 
   /// Mirror to [PhotoView.child]
   final CustomChildDelegate? customChildDelegate;
-
 
   /// Mirror to [PhotoView.childSize]
   // final Size? childSize;
