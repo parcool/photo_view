@@ -43,30 +43,32 @@ class PhotoViewCore extends StatefulWidget {
     required this.disableGestures,
     required this.enablePanAlways,
     required this.strictScale,
+    this.disableScale,
   })  : customChild = null,
         super(key: key);
 
-  const PhotoViewCore.customChild(
-      {Key? key,
-      required this.customChild,
-      required this.backgroundDecoration,
-      this.heroAttributes,
-      required this.enableRotation,
-      this.onTapUp,
-      this.onTapDown,
-      this.onScaleEnd,
-      this.gestureDetectorBehavior,
-      required this.controller,
-      required this.scaleBoundaries,
-      required this.scaleStateCycle,
-      required this.scaleStateController,
-      required this.basePosition,
-      required this.tightMode,
-      required this.filterQuality,
-      required this.disableGestures,
-      required this.enablePanAlways,
-      required this.strictScale})
-      : imageProvider = null,
+  const PhotoViewCore.customChild({
+    Key? key,
+    required this.customChild,
+    required this.backgroundDecoration,
+    this.heroAttributes,
+    required this.enableRotation,
+    this.onTapUp,
+    this.onTapDown,
+    this.onScaleEnd,
+    this.gestureDetectorBehavior,
+    required this.controller,
+    required this.scaleBoundaries,
+    required this.scaleStateCycle,
+    required this.scaleStateController,
+    required this.basePosition,
+    required this.tightMode,
+    required this.filterQuality,
+    required this.disableGestures,
+    required this.enablePanAlways,
+    required this.strictScale,
+    this.disableScale,
+  })  : imageProvider = null,
         semanticLabel = null,
         gaplessPlayback = false,
         super(key: key);
@@ -96,6 +98,8 @@ class PhotoViewCore extends StatefulWidget {
   final bool strictScale;
 
   final FilterQuality filterQuality;
+
+  final bool? disableScale;
 
   @override
   State<StatefulWidget> createState() {
@@ -288,6 +292,9 @@ class PhotoViewCoreState extends State<PhotoViewCore> with TickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
+    if (widget.disableScale == true) {
+      return _buildHero();
+    }
     // Check if we need a recalc on the scale
     if (widget.scaleBoundaries != cachedScaleBoundaries) {
       markNeedsScaleRecalc = true;

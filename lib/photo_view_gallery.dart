@@ -284,6 +284,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
             errorBuilder: pageOption.errorBuilder,
+            disableScale: pageOption.disableScale,
           )
         : PhotoView(
             key: ObjectKey(index),
@@ -312,6 +313,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
             errorBuilder: pageOption.errorBuilder,
+            disableScale: pageOption.disableScale,
           );
 
     return ClipRect(
@@ -352,6 +354,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
             errorBuilder: pageOption.errorBuilder,
+            disableScale: pageOption.disableScale,
           )
         : PhotoView(
             key: ObjectKey(index),
@@ -380,6 +383,7 @@ class _PhotoViewGalleryState extends State<PhotoViewGallery> {
             basePosition: pageOption.basePosition,
             disableGestures: pageOption.disableGestures,
             errorBuilder: pageOption.errorBuilder,
+            disableScale: pageOption.disableScale,
           );
 
     return ClipRect(
@@ -427,6 +431,7 @@ class PhotoViewGalleryPageOptions {
     this.filterQuality,
     this.disableGestures,
     this.errorBuilder,
+    this.disableScale,
   })  : child = null,
         childSize = null,
         assert(imageProvider != null);
@@ -451,6 +456,7 @@ class PhotoViewGalleryPageOptions {
     this.filterQuality,
     this.disableGestures,
     this.errorBuilder,
+    this.disableScale,
   }) : imageProvider = null;
 
   /// Mirror to [PhotoView.imageProvider]
@@ -512,4 +518,6 @@ class PhotoViewGalleryPageOptions {
 
   /// Mirror to [PhotoView.errorBuilder]
   final ImageErrorWidgetBuilder? errorBuilder;
+
+  final bool? disableScale;
 }

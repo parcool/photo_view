@@ -213,9 +213,24 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
           )
         : true
             ? PhotoViewGalleryPageOptions.customChild(
-                child: Image(
-                  image: AssetImage(item.resource),
-                  fit: BoxFit.contain,
+                child: Stack(
+                  children: [
+                    Image(
+                      image: AssetImage(item.resource),
+                      fit: BoxFit.contain,
+                    ),
+                    Center(
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.play_circle,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          print("点击了播放按钮！");
+                        },
+                      ),
+                    )
+                  ],
                 ),
                 // childSize: Size(1640.0, 923.0),
                 childSize: const Size(1640, 923),
@@ -223,6 +238,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 minScale: PhotoViewComputedScale.contained * 0.5,
                 maxScale: PhotoViewComputedScale.covered * 2,
                 heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+                disableScale: true,
               )
             : PhotoViewGalleryPageOptions(
                 imageProvider: AssetImage(item.resource),
@@ -254,9 +270,29 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
           )
         : true
             ? PhotoViewGalleryPageOptions.customChild(
-                child: Image(
-                  image: AssetImage(item.resource),
-                  fit: BoxFit.contain,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Image(
+                          image: AssetImage(item.resource),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Center(
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.play_circle,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            print("点击了播放按钮！");
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 // childSize: Size(1640.0, 923.0),
                 childSize: const Size(1640, 923),
@@ -264,6 +300,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 minScale: PhotoViewComputedScale.contained * 0.5,
                 maxScale: PhotoViewComputedScale.covered * 2,
                 heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+                disableScale: true,
               )
             : PhotoViewGalleryPageOptions(
                 imageProvider: AssetImage(item.resource),
